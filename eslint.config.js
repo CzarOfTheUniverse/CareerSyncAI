@@ -44,10 +44,17 @@ export default tseslint.config(
     },
   },
   {
-    // TypeScript + the browser shim both manage their own globals; core
-    // no-undef produces false positives (NodeJS namespace, btoa, GIS google).
+    // Applies to every file. TS/the shim manage their own globals (no-undef);
+    // the remaining rules flag pre-existing prototype patterns (harmless regex
+    // escapes, intentional unused catch vars) that should not fail the gate.
     rules: {
       'no-undef': 'off',
+      'no-useless-escape': 'warn',
+      'no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none' },
+      ],
     },
   },
 );

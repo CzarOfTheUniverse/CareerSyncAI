@@ -145,7 +145,7 @@ export async function parseEmailWithGemini(emailText: string): Promise<ParsedEma
           }
         }
       });
-      return JSON.parse(response.text.trim());
+      return JSON.parse((response.text || '').trim());
     });
     return parsedData;
   } catch (error) {
