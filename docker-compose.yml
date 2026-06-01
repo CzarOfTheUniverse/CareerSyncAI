@@ -1,0 +1,39 @@
+# Self-host stack: nginx-served frontend in front of the Node proxy backend.
+#
+# Before `docker compose up`:
+#   1. cp backend/.env.example backend/.env.local  and fill in real values
+#      (GOOGLE_CLOUD_PROJECT, GOOGLE_OAUTH_CLIENT_ID, PROXY_HEADER, allow-list…).
+#   2. Put a Vertex AI service-account key at ./secrets/service-account.json and
+#      set GOOGLE_APPLICATION_CREDENTIALS=/secrets/service-account.json in .env.local.
+#
+# Then browse to http://localhost:8080
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - backend/.env.local
+    environment:
+      # Bind to all interfaces inside the container so nginx can reach it.
+      - API_BACKEND_HOST=0.0.0.0
+    volumes:
+      - ./secrets:/secrets:ro
+    expose:
+      - '5000'
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:5000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+    restart: unless-stopped

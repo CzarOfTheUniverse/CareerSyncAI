@@ -1,0 +1,41 @@
+{
+  "name": "careersync-ai-smart-job-tracker-api-backend-server",
+  "type": "module",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Node/TypeScript backend that proxies Google Cloud Vertex AI requests",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file=.env.local src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file=.env.local dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
+    "google-auth-library": "^10.5.0",
+    "node-fetch": "^3.3.2",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^25.2.0",
+    "@types/supertest": "^6.0.2",
+    "@types/ws": "^8.5.12",
+    "@vitest/coverage-v8": "^3.2.4",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.4"
+  }
+}

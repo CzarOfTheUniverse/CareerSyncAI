@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Test / coverage
+coverage/
+
+# Env & secrets  (never commit real credentials)
+.env
+.env.*
+!.env.example
+*-service-account*.json
+**/service-account*.json
+application_default_credentials.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
